@@ -4,6 +4,8 @@ import Router from 'vue-router'
 import store from '@/store'
 
 import DashboardPage from '@/components/pages/DashboardPage'
+import ContainersPage from "@/components/pages/ContainersPage";
+import ImagesPage from "@/components/pages/ImagesPage";
 
 Vue.use(Router);
 
@@ -17,6 +19,22 @@ const router = new Router({
       component: DashboardPage,
       meta: {
         title: 'Dashboard'
+      }
+    },
+    {
+      path: '/containers',
+      name: 'containers',
+      component: ContainersPage,
+      meta: {
+        title: 'Containers'
+      }
+    },
+    {
+      path: '/images',
+      name: 'images',
+      component: ImagesPage,
+      meta: {
+        title: 'Images'
       }
     }
   ]
