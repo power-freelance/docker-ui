@@ -10,16 +10,19 @@ import (
 
 var CliFlags = []cli.Flag{
 	cli.StringFlag{Name: "listen", Value: ":9000", EnvVar: "LISTEN", Usage: "Listen address for HTTP access"},
+	cli.StringFlag{Name: "staticRoot", Value: "web/dist", EnvVar: "STATIC_ROOT", Usage: "Static files root dir"},
 }
 
 func NewFlags(c *cli.Context) *Flags {
 	return &Flags{
-		Listen: c.String("listen"),
+		Listen:     c.String("listen"),
+		StaticRoot: c.String("staticRoot"),
 	}
 }
 
 type Flags struct {
-	Listen string
+	Listen     string
+	StaticRoot string
 }
 
 func Action(c *cli.Context) error {
@@ -43,6 +46,9 @@ func Action(c *cli.Context) error {
 
 	// Set docker client in every request context
 	e.Use(HttpMiddlewareDockerClient(dc))
+
+	// Web app serve
+	e.Static("/", flags.StaticRoot)
 
 	// API endpoints
 	api := e.Group("/api")
