@@ -1,7 +1,11 @@
 <template>
-  <v-data-table :items="items" :headers="headers">
+  <v-data-table
+    :items="items"
+    :headers="headers"
+    :rows-per-page-items="[20, 50, {text: 'All', value:-1}]"
+  >
     <template v-slot:items="{item}">
-      <ContainerTableRow v-bind="item" />
+      <ContainerTableRow v-bind="item"/>
     </template>
   </v-data-table>
 </template>

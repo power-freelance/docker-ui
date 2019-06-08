@@ -2,10 +2,12 @@ import { getField, updateField } from 'vuex-map-fields'
 
 import $http from '@/http'
 
+import statusItems from '@/assets/data/container-status'
+
 const state = {
   filter: {
     all: true,
-    status: []
+    status: statusItems.map(item => item.id)
   },
   items: []
 };
