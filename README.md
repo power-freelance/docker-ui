@@ -7,7 +7,11 @@ UI for docker. A great example of a full stack on go + vue.
 Is very simple! 
 
 ```
-docker run -v /var/run/docker.sock:/var/run/docker.sock -p 9000:9000 --restart always -it docker-ui
+docker run \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -p 9000:9000 \
+    --restart always \
+    -it powerfreelance/docker-ui
 ```
 
 open at http://localhost:9000.
