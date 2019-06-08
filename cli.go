@@ -45,7 +45,7 @@ func Action(c *cli.Context) error {
 	e := echo.New()
 
 	// Set docker client in every request context
-	e.Use(HttpMiddlewareDockerClient(dc))
+	e.Use(MiddlewareDockerClient(dc))
 
 	// Web app serve
 	e.Static("/", flags.StaticRoot)
@@ -53,9 +53,10 @@ func Action(c *cli.Context) error {
 	// API endpoints
 	api := e.Group("/api")
 	{
-		api.GET("/", UseHttpContext(HttpIndex))
-		api.GET("/image", UseHttpContext(HttpImageList))
-		api.GET("/container", UseHttpContext(HttpContainerList))
+		api.GET("/", UseContext(EndpointIndex))
+		api.GET("/image", UseContext(EndpointImageList))
+		api.GET("/container", UseContext(EndpointContainerList))
+		api.GET("/compose/project", UseContext(EndpointComposeProjectList))
 	}
 
 	return e.Start(flags.Listen)

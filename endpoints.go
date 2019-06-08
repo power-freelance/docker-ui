@@ -5,35 +5,10 @@ import (
 
 	"github.com/docker/docker/api/types"
 
-	"github.com/docker/docker/client"
 	"github.com/labstack/echo"
 )
 
-type HttpContext struct {
-	echo.Context
-}
-
-func (hc HttpContext) GetDockerClient() *client.Client {
-	return hc.Get("dc").(*client.Client)
-}
-
-func UseHttpContext(next func(*HttpContext) error) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		hc := &HttpContext{c}
-		return next(hc)
-	}
-}
-
-func HttpMiddlewareDockerClient(dc *client.Client) echo.MiddlewareFunc {
-	return func(next echo.HandlerFunc) echo.HandlerFunc {
-		return func(c echo.Context) error {
-			c.Set("dc", dc)
-			return next(c)
-		}
-	}
-}
-
-func HttpIndex(c *HttpContext) error {
+func EndpointIndex(c *Context) error {
 	ctx := c.Request().Context()
 	dc := c.GetDockerClient()
 	info, err := dc.Info(ctx)
@@ -52,7 +27,7 @@ func HttpIndex(c *HttpContext) error {
 	})
 }
 
-func HttpImageList(hc *HttpContext) error {
+func EndpointImageList(hc *Context) error {
 	ctx := hc.Request().Context()
 	dc := hc.GetDockerClient()
 	images, err := dc.ImageList(ctx, types.ImageListOptions{})
@@ -63,13 +38,26 @@ func HttpImageList(hc *HttpContext) error {
 	return hc.JSON(http.StatusOK, images)
 }
 
-func HttpContainerList(hc *HttpContext) error {
+func EndpointContainerList(hc *Context) error {
 	ctx := hc.Request().Context()
 	dc := hc.GetDockerClient()
 	containers, err := dc.ContainerList(ctx, types.ContainerListOptions{})
 	if err != nil {
 		return err
 	}
+
+	return hc.JSON(http.StatusOK, containers)
+}
+
+func EndpointComposeProjectList(hc *Context) error {
+	ctx := hc.Request().Context()
+	dc := hc.GetDockerClient()
+	containers, err := dc.ContainerList(ctx, types.ContainerListOptions{})
+	if err != nil {
+		return err
+	}
+
+	// TODO: parse container labels and create docker-compose projects list
 
 	return hc.JSON(http.StatusOK, containers)
 }
