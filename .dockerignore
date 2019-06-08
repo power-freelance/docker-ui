@@ -1,0 +1,9 @@
+Dockerfile
+.idea/
+.vscode/
+web/node_modules/
+.editorconfig
+.git/
+.gitignore
+LICENSE
+README.md
