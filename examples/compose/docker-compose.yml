@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+
+  redis:
+    image: redis
+
+  postgres:
+    image: postgres
+
+  ui:
+    image: powerfreelance/docker-ui
+    ports:
+      - "9000:9000"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
