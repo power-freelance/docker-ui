@@ -1,39 +1,43 @@
 <template>
-  <v-layout class="containers-page" row wrap>
-    <v-flex pa-2 xs12 sm6 v-for="(item, index) in items" :key="index">
-      <v-card>
-        <v-card-title>{{item.Names[0]}}</v-card-title>
-        <v-card-text>
-          <v-chip color="primary" label outline>
-            <v-avatar>
-              <v-icon>mdi-image</v-icon>
-            </v-avatar>
-            {{item.Image}}
-          </v-chip>
-
-          <v-chip color="black" label outline>
-            <v-avatar>
-              <v-icon>mdi-console</v-icon>
-            </v-avatar>
-            {{item.Command}}
-          </v-chip>
-        </v-card-text>
-      </v-card>
+  <v-layout class="containers-page" column>
+    <v-flex shrink>
+      <ContainerFilter />
+    </v-flex>
+    <v-flex shrink>
+      <ContainerTable />
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
+
+import ContainerTable from "@/components/organisms/ContainerTable";
+import ContainerFilter from "@/components/organisms/ContainerFilter";
 
 export default {
+  components: {
+    ContainerFilter,
+    ContainerTable
+  },
   computed: {
-    ...mapState('containers', {
-      items: state => state.items
+    ...mapState('containers/list', {
+      filter: state => state.filter
     })
   },
+  watch: {
+    filter: {
+      deep: true,
+      handler() {
+        this.fetchItems();
+      }
+    }
+  },
   mounted() {
-    this.$store.dispatch('containers/fetchItems');
+    this.fetchItems();
+  },
+  methods: {
+    ...mapActions('containers/list', ['fetchItems']),
   }
 }
 </script>

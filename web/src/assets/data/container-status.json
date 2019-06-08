@@ -1,0 +1,37 @@
+[
+  {
+    "id": "created",
+    "text": "Created",
+    "icon": ""
+  },
+  {
+    "id": "restarting",
+    "text": "Restarting",
+    "icon": ""
+  },
+  {
+    "id": "running",
+    "text": "Running",
+    "icon": ""
+  },
+  {
+    "id": "removing",
+    "text": "Removing",
+    "icon": ""
+  },
+  {
+    "id": "paused",
+    "text": "Paused",
+    "icon": ""
+  },
+  {
+    "id": "exited",
+    "text": "Exited",
+    "icon": ""
+  },
+  {
+    "id": "dead",
+    "text": "Dead",
+    "icon": ""
+  }
+]

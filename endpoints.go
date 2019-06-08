@@ -39,9 +39,15 @@ func EndpointImageList(hc *Context) error {
 }
 
 func EndpointContainerList(hc *Context) error {
+	// Parse request params
+	params := new(ContainerListParams)
+	if err := hc.Bind(params); err != nil {
+		return err
+	}
+
 	ctx := hc.Request().Context()
 	dc := hc.GetDockerClient()
-	containers, err := dc.ContainerList(ctx, types.ContainerListOptions{})
+	containers, err := dc.ContainerList(ctx, params.GetOpts())
 	if err != nil {
 		return err
 	}
