@@ -1,0 +1,11 @@
+version: '3'
+services:
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.watch
+    volumes:
+      - ".:/go/src/github.com/power-freelance/docker-ui"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    network_mode: "host"

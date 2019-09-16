@@ -1,0 +1,20 @@
+# Build go backend
+FROM golang:1.13-alpine
+
+# Install git + SSL ca certificates.
+# Git is required for fetching the dependencies.
+# Ca-certificates is required to call HTTPS endpoints.
+RUN apk update && apk add --no-cache git ca-certificates tzdata && update-ca-certificates \
+ && go get github.com/cortesi/modd/cmd/modd
+
+WORKDIR $GOPATH/src/github.com/power-freelance/docker-ui
+
+COPY go.mod .
+COPY go.sum .
+
+ENV GO111MODULE=on
+RUN go mod download
+
+VOLUME $GOPATH/src/github.com/power-freelance/docker-ui
+
+CMD ["/go/bin/modd"]
